@@ -77,6 +77,9 @@ config MACH_RK30_PHONE_A22
 	
 config MACH_RK30_PHONE_PAD
         bool "RK30 phone pad board"
+
+config MACH_PLOYER_MOMO12
+		bool "Ployer MOMO12 MID device"
 	
 endchoice
 
