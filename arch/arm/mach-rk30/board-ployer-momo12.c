@@ -278,11 +278,11 @@ static struct spi_board_info board_spi_devices[] = {
 *	rk30  backlight
 ************************************************************/
 #ifdef CONFIG_BACKLIGHT_RK29_BL
-#define PWM_ID            0
-#define PWM_MUX_NAME      GPIO0A3_PWM0_NAME
-#define PWM_MUX_MODE      GPIO0A_PWM0
-#define PWM_MUX_MODE_GPIO GPIO0A_GPIO0A3
-#define PWM_GPIO         RK30_PIN0_PA3
+#define PWM_ID            2//0
+#define PWM_MUX_NAME      GPIO0D6_PWM2_NAME//GPIO0A3_PWM0_NAME
+#define PWM_MUX_MODE      GPIO0D_PWM2//GPIO0A_PWM0
+#define PWM_MUX_MODE_GPIO GPIO0D_GPIO0D6//GPIO0A_GPIO0A3
+#define PWM_GPIO         RK30_PIN0_PD6//RK30_PIN0_PA3
 #define PWM_EFFECT_VALUE  1
 
 #define LCD_DISP_ON_PIN
@@ -723,6 +723,11 @@ static struct sensor_platform_data light_stk3171_info = {
 #define LCD_EN_PIN         RK30_PIN6_PB4
 #define LCD_EN_VALUE       GPIO_LOW
 
+#define LCD_LVDS_EN_PIN	RK30_PIN0_PC6
+#define LCD_LVDS_EN_VALUE GPIO_HIGH
+#define LCD_STANDBY_MUX_NAME    GPIO4D1_SMCDATA9_TRACEDATA9_NAME
+#define LCD_STANDBY_PIN    RK30_PIN4_PD1
+#define LCD_STANDBY_VALUE  GPIO_HIGH
 static int rk_fb_io_init(struct rk29_fb_setting_info *fb_setting)
 {
 	int ret = 0;
@@ -756,15 +761,52 @@ static int rk_fb_io_init(struct rk29_fb_setting_info *fb_setting)
 			gpio_direction_output(LCD_EN_PIN, LCD_EN_VALUE);
 		}
 	}
+	
+    if(LCD_STANDBY_PIN != INVALID_GPIO)
+    {
+          rk30_mux_api_set(LCD_STANDBY_MUX_NAME, GPIO4D_GPIO4D1);
+		ret = gpio_request(LCD_STANDBY_PIN, NULL);
+		if (ret != 0)
+		{
+			gpio_free(LCD_STANDBY_PIN);
+			printk(KERN_ERR "request lcd en pin fail!\n");
+			return -1;
+		}
+		else
+		{
+			gpio_direction_output(LCD_STANDBY_PIN, 1);
+			gpio_set_value(LCD_STANDBY_PIN, LCD_STANDBY_VALUE);
+		}
+    }
+	mdelay(100);
+	if (LCD_LVDS_EN_PIN != INVALID_GPIO) {
+	    ret = gpio_request(LCD_LVDS_EN_PIN, NULL);
+	    if (ret){
+	        printk(KERN_ERR "LVDS_EN_PIN gpio_request err\n");
+	    }
+	    else {
+		gpio_direction_output(LCD_LVDS_EN_PIN, 1);
+		gpio_set_value(LCD_LVDS_EN_PIN, LCD_LVDS_EN_VALUE);
+		}
+    }
 	return 0;
 }
 static int rk_fb_io_disable(void)
 {
+    if(LCD_STANDBY_PIN != INVALID_GPIO)
+    {
+        gpio_set_value(LCD_STANDBY_PIN, !LCD_STANDBY_VALUE);             
+    }
 	if(LCD_CS_PIN != INVALID_GPIO)
 	{
 		gpio_set_value(LCD_CS_PIN, !LCD_CS_VALUE);
 	}
 
+	mdelay(50);
+	if (LCD_LVDS_EN_PIN != INVALID_GPIO)
+	{
+		gpio_set_value(LCD_LVDS_EN_PIN, !LCD_LVDS_EN_VALUE);
+	}
 	if(LCD_EN_PIN != INVALID_GPIO)
 	{
 		gpio_set_value(LCD_EN_PIN, !LCD_EN_VALUE);
@@ -781,6 +823,16 @@ static int rk_fb_io_enable(void)
 	{
 		gpio_set_value(LCD_EN_PIN, LCD_EN_VALUE);
 	}
+    if(LCD_STANDBY_PIN != INVALID_GPIO)
+    {
+        gpio_direction_output(LCD_STANDBY_PIN, 0);
+        gpio_set_value(LCD_STANDBY_PIN, LCD_STANDBY_VALUE);             
+    }
+	if (LCD_LVDS_EN_PIN != INVALID_GPIO) 
+	{
+		gpio_set_value(LCD_LVDS_EN_PIN, LCD_LVDS_EN_VALUE);
+	}
+
 	return 0;
 }
 
