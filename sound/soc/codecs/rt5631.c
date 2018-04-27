@@ -153,10 +153,10 @@ struct rt5631_init_reg {
 };
 
 #ifndef DEF_VOL
-#define DEF_VOL					0xd4//0xd4 -30dB 0xc0 0dB
+#define DEF_VOL					0xc6//0xd4//0xd4 -30dB 0xc0 0dB
 #endif
 #ifndef DEF_VOL_SPK
-#define DEF_VOL_SPK				0xc4
+#define DEF_VOL_SPK				0xca//0xc4
 #endif
 
 /*
@@ -213,8 +213,8 @@ static struct rt5631_init_reg init_list[] = {
 	{RT5631_INT_ST_IRQ_CTRL_2	, 0x0f18},//enable HP zero cross	
 	{RT5631_MIC_CTRL_1		, 0x8000},//set mic 1 to differnetial mode
 	{RT5631_GPIO_CTRL		, 0x0000},//set GPIO to input pin	
-//	{RT5631_JACK_DET_CTRL		, 0x4e80},//Jack detect for GPIO,high is HP,low is speaker	
-	{RT5631_JACK_DET_CTRL		, 0x4bc0},//Jack detect for GPIO,high is speaker,low is hp	
+	{RT5631_JACK_DET_CTRL		, 0x4e80},//Jack detect for GPIO,high is HP,low is speaker	
+//	{RT5631_JACK_DET_CTRL		, 0x4bc0},//Jack detect for GPIO,high is speaker,low is hp	
 };
 #define RT5631_INIT_REG_LEN ARRAY_SIZE(init_list)
 
@@ -1892,7 +1892,7 @@ static ssize_t rt5631_index_reg_show(struct device *dev,
 }
 static DEVICE_ATTR(index_reg, 0444, rt5631_index_reg_show, NULL);
 
-#define RT5631_STEREO_RATES SNDRV_PCM_RATE_8000_96000
+#define RT5631_STEREO_RATES 44100//SNDRV_PCM_RATE_8000_96000
 #define RT5631_FORMAT	(SNDRV_PCM_FMTBIT_S16_LE | \
 			SNDRV_PCM_FMTBIT_S20_3LE | \
 			SNDRV_PCM_FMTBIT_S24_LE | \
