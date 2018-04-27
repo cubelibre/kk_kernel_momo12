@@ -106,7 +106,8 @@ static struct rk29_keys_button key_button[] = {
 	{
 		.desc	= "vol-",
 		.code	= KEY_VOLUMEDOWN,
-		.gpio	= RK30_PIN4_PC5,
+		.adc_value	= 1,
+		.gpio	= INVALID_GPIO,//RK30_PIN4_PC5,
 		.active_low = PRESS_LEV_LOW,
 	},
 	{
@@ -120,8 +121,8 @@ static struct rk29_keys_button key_button[] = {
 	{
 		.desc	= "vol+",
 		.code	= KEY_VOLUMEUP,
-		.adc_value	= 1,
-		.gpio = INVALID_GPIO,
+		//.adc_value	= 1,
+		.gpio = RK30_PIN4_PC5,//INVALID_GPIO,
 		.active_low = PRESS_LEV_LOW,
 	},
 #ifndef RK3000_SDK
