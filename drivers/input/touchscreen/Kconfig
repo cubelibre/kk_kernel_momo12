@@ -1039,6 +1039,12 @@ config TOUCHSCREEN_I30
 	tristate "i30 based touchscreens: i30(ft5306) Interface"
 	depends on I2C2_RK29 || I2C2_RK30
 
+config TOUCHSCREEN_SSL
+	tristate "SSL SSD253X i2c touchscreen panel support"
+	depends on I2C2_RK29 || I2C2_RK30
+	help
+	  This enables support for SSL over I2C based touchscreen
+
 config TOUCHSCREEN_BYD693X
 	tristate "touchscreen BYD693X I2C Interface"
 	depends on I2C2_RK29 || I2C2_RK30

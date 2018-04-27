@@ -413,6 +413,27 @@ struct ft5x0x_platform_data{
 };
 #endif
 
+#if defined(CONFIG_TOUCHSCREEN_SSL)
+struct ChipSetting {
+	char No;
+	char Reg;
+	char Data1;
+	char Data2;
+};
+struct ssd2533_platform_data{
+
+	int gpio_rst;
+	int gpio_irq;
+	struct ChipSetting *chipsetting_config;
+	int config_info_len;
+	uint16_t screen_max_x;
+	uint16_t screen_max_y;
+	u8 swap_xy :1;
+	u8 xpol :1;
+	u8 ypol :1;
+};
+#endif
+
 #if defined (CONFIG_TOUCHSCREEN_SITRONIX_A720)
 struct ft5x0x_platform_data{
     u16     model;
