@@ -735,7 +735,9 @@ static struct sensor_platform_data mma7660_info = {
 	.irq_enable = 1,
 	.poll_delay_ms = 30,
         .init_platform_hw = mma7660_init_platform_hw,
-        .orientation = {0, 1, 0, 0, 0, -1, 1, 0, 0},
+//        .orientation = {0, 1, 0, 0, 0, -1, 1, 0, 0},
+		.orientation =   {-1, 0, 0, 0, 1, 0, 0, 0, -1},//cl hwrotation=0 for momo12
+
 };
 #endif
 
@@ -2224,7 +2226,7 @@ static void __init rk30_reserve(void)
 {
 	int size, ion_reserve_size;
 #ifdef CONFIG_ION
-	rk30_ion_pdata.heaps[0].base = board_mem_reserve_add("ion", ION_RESERVE_SIZE);
+//	rk30_ion_pdata.heaps[0].base = board_mem_reserve_add("ion", ION_RESERVE_SIZE);
 	size = ddr_get_cap() >> 20;
 	if(size >= 1024) { // DDR >= 1G, set ion to 120M
                rk30_ion_pdata.heaps[0].size = ION_RESERVE_SIZE_120M;
@@ -2265,6 +2267,7 @@ static void __init rk30_reserve(void)
  * comments	: min arm/logic voltage
  */
 static struct dvfs_arm_table dvfs_cpu_logic_table[] = {
+	{.frequency = 126 * 1000, 	.cpu_volt = 1050 * 1000, 	.logic_volt = 1125 * 1000},//0.975V/1.000V
 	{.frequency = 252 * 1000,	.cpu_volt = 1075 * 1000,	.logic_volt = 1125 * 1000},//0.975V/1.000V
 	{.frequency = 504 * 1000,	.cpu_volt = 1100 * 1000,	.logic_volt = 1125 * 1000},//0.975V/1.000V
 	{.frequency = 816 * 1000,	.cpu_volt = 1125 * 1000,	.logic_volt = 1150 * 1000},//1.000V/1.025V
@@ -2273,7 +2276,7 @@ static struct dvfs_arm_table dvfs_cpu_logic_table[] = {
 	{.frequency = 1272 * 1000,	.cpu_volt = 1225 * 1000,	.logic_volt = 1200 * 1000},//1.150V/1.100V
 	{.frequency = 1416 * 1000,	.cpu_volt = 1300 * 1000,	.logic_volt = 1200 * 1000},//1.225V/1.100V
 	{.frequency = 1512 * 1000,	.cpu_volt = 1350 * 1000,	.logic_volt = 1250 * 1000},//1.300V/1.150V
-	{.frequency = 1608 * 1000,	.cpu_volt = 1425 * 1000,	.logic_volt = 1300 * 1000},//1.325V/1.175V
+//	{.frequency = 1608 * 1000,	.cpu_volt = 1425 * 1000,	.logic_volt = 1300 * 1000},//1.325V/1.175V
 	{.frequency = CPUFREQ_TABLE_END},
 };
 
