@@ -361,6 +361,58 @@ static struct ssd2533_platform_data ssd253x_info = {
 };
 #endif
 
+#if defined (CONFIG_TOUCHSCREEN_FT5X0X_TS)
+
+int ft5x0x_init_platform_hw(void)
+{
+	printk("enter %s()\n", __FUNCTION__);
+    if(gpio_request(TOUCH_RESET_PIN,NULL) != 0){
+      gpio_free(TOUCH_RESET_PIN);
+      printk("laibao_request_io gpio_request error\n");
+       return -EIO;
+    }
+
+    if(gpio_request(TOUCH_INT_PIN,NULL) != 0){
+      gpio_free(TOUCH_INT_PIN);
+	  gpio_free(TOUCH_RESET_PIN);
+      printk("laibao_request_io gpio_request error\n");
+      return -EIO;
+    }
+	
+    msleep(5);
+    gpio_pull_updown(TOUCH_INT_PIN, 1);
+    gpio_direction_output(TOUCH_RESET_PIN, 0);
+    msleep(5);
+    gpio_set_value(TOUCH_RESET_PIN,GPIO_LOW);
+    msleep(200);
+    gpio_set_value(TOUCH_RESET_PIN,GPIO_HIGH);
+
+    	return 0;
+}
+
+void ft5x0x_exit_platform_hw(void)
+{
+	gpio_free(TOUCH_RESET_PIN);
+	gpio_free(TOUCH_INT_PIN);
+}
+
+struct ft5x0x_platform_data ft5x0x_info = {
+//	.model= 1003,
+	.init_platform_hw= ft5x0x_init_platform_hw,
+	.exit_platform_hw = ft5x0x_exit_platform_hw,
+	.reset_pin = TOUCH_RESET_PIN,
+	.reset_value = GPIO_LOW,
+	.gpio_irq = TOUCH_INT_PIN,
+	.touch_max_x = 1280,//1024,
+	.touch_max_y = 800,//768,
+	.screen_max_x = 1280,//1024,
+	.screen_max_y = 800,//768,
+	.swap_xy = 0,
+	.xpol = 0,
+	.ypol = 0	
+};
+#endif
+
 static struct spi_board_info board_spi_devices[] = {
 };
 
@@ -2032,6 +2084,15 @@ static struct i2c_board_info __initdata i2c2_info[] = {
 		.irq			= RK30_PIN4_PC2,
 		.platform_data = &ssd253x_info,
 	},	
+#endif
+#if defined (CONFIG_TOUCHSCREEN_FT5X0X_TS)
+    {
+      .type	      = "ft5x0x_ts",//"ft5x0x_touch",
+      .addr	      = 0x38,
+      .flags	      = 0,
+      .irq	      = RK30_PIN4_PC2,
+      .platform_data  = &ft5x0x_info,
+    },
 #endif
 #if defined (CONFIG_LS_CM3217)
 	{

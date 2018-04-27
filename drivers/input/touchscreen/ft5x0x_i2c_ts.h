@@ -1,10 +1,12 @@
 #ifndef __LINUX_FT5X0X_TS_H__
 #define __LINUX_FT5X0X_TS_H__
 
+#if defined(CONFIG_BOARD_TYPE_ZM861)
 //#define CONFIG_SUPPORT_FTS_CTP_UPG
-#define CONFIG_FTS_CUSTOME_ENV
+#endif
 
-#define FT5X0X_I2C_SPEED 100*1000
+#define FT5X0X_I2C_SPEED 200*1000
+#define POLL_TIME           10        //actual query spacing interval:POLL_TIME+6
 
 #define CFG_DBG_DUMMY_INFO_SUPPORT   1     //output touch point information
 #define CFG_DBG_FUCTION_INFO_SUPPORT 0     //output fouction name
@@ -14,22 +16,14 @@
 #define CFG_MAX_POINT_NUM            0x5    //max touch points supported
 #define CFG_NUMOFKEYS                    0x4    //number of touch keys
 
-#ifdef CONFIG_FTS_CUSTOME_ENV  
 //当手指从边界划起时,会出现无响应的情况,因此添加一个宏将边界最大值向外拉伸
-#define SCREEN_BOUNDARY_ADJUST_VALUE 10 
+#define SCREEN_BOUNDARY_ADJUST_VALUE 10
 
-#define SCREEN_MAX_X           1024
-#define SCREEN_MAX_Y           600
-#else
-#define SCREEN_MAX_X           800
-#define SCREEN_MAX_Y           480
-#endif
-#define PRESS_MAX                 255
 
 #define KEY_PRESS                 0x1
 #define KEY_RELEASE              0x0
 
-#define FT5X0X_NAME    "laibao_touch"//"ft5x0x_ts"  
+#define FT5X0X_NAME    "ft5x0x_ts" //"ft5x0x_touch"  
 
 #define FTS_NULL                    0x0
 #define FTS_TRUE                    0x1
@@ -40,8 +34,6 @@ typedef unsigned char         FTS_BYTE;
 typedef unsigned short        FTS_WORD;   
 typedef unsigned int          FTS_DWRD;    
 typedef unsigned char         FTS_BOOL;  
-
-
 
  typedef struct _REPORT_FINGER_INFO_T
  {

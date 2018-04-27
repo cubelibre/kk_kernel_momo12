@@ -434,6 +434,32 @@ struct ssd2533_platform_data{
 };
 #endif
 
+#if defined (CONFIG_TOUCHSCREEN_FT5X0X_TS)
+struct ft5x0x_platform_data {
+	u16     model;
+
+	int     (*get_pendown_state)(void);
+	int     (*init_platform_hw)(void);
+	int     (*laibao_platform_sleep)(void);
+	int     (*laibao_platform_wakeup)(void);
+	void    (*exit_platform_hw)(void);
+	int pwr_pin;
+	int pwr_on_value;
+	int reset_pin;
+	int gpio_irq;
+	int reset_value;
+	int *tp_flag;
+
+	uint16_t touch_max_x;
+	uint16_t touch_max_y;
+	uint16_t screen_max_x;
+	uint16_t screen_max_y;
+	u8 swap_xy :1;
+	u8 xpol :1;
+	u8 ypol :1;
+};
+#endif
+
 #if defined (CONFIG_TOUCHSCREEN_SITRONIX_A720)
 struct ft5x0x_platform_data{
     u16     model;
