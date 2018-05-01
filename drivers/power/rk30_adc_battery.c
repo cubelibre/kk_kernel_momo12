@@ -121,7 +121,7 @@ static struct batt_vol_cal  batt_table[] = {
 	{89,4030,4132},{91,4034,4144},{93,4055,4150},{95,4085,4195},{97,4085,4195},{100,4120,4200},
 };
 #else
-#if (CONFIG_MACH_PLOYER_MOMO12)
+#if defined(CONFIG_MACH_PLOYER_MOMO12)
 
 #define BATT_MAX_VOL_VALUE                              8200              	//Full charge voltage
 #define BATT_ZERO_VOL_VALUE                             6750            	// power down voltage 
@@ -136,13 +136,21 @@ static struct batt_vol_cal  batt_table[] = {
 #endif
 
 //定义ADC采样分压电阻，以实际值为准，单位K
+#if defined(CONFIG_MACH_PLOYER_MOMO12)
+
+#define BAT_PULL_UP_R                                         310 
+#define BAT_PULL_DOWN_R                                    100
+
+#else
 
 #define BAT_PULL_UP_R                                         300 
 #define BAT_PULL_DOWN_R                                    100
 
+#endif
+
 static struct batt_vol_cal  batt_table[] = {
 
-#if (CONFIG_MACH_PLOYER_MOMO12)
+#if defined(CONFIG_MACH_PLOYER_MOMO12)
 /* dump from kernel MOMO12 */
 
 	{0,6750,7000}, {1,6800,7100}, {2,6850,7125}, {3,6900,7150}, {4,6950,7175}, {5,7000,7200}, {7,7030,7230},
