@@ -93,6 +93,20 @@ static struct rkcamera_platform_data new_camera[] = {
                         0,
                         3,
                         0),
+    new_camera_device(RK29_CAM_SENSOR_GT2005, //momo12
+                        front,
+                        RK30_PIN1_PB7,
+                        0,
+                        0,
+                        3,
+                        0),
+    new_camera_device(RK29_CAM_SENSOR_GC2035, //momo12
+                        front,
+                        RK30_PIN1_PB7,
+                        0,
+                        0,
+                        3,
+                        0),
 
     new_camera_device_end
 };
