@@ -111,6 +111,7 @@
 
 #define new_camera_device(sensor_name,\
                           face,\
+                          ori,\
                           pwdn_io,\
                           flash_attach,\
                           mir,\
@@ -118,7 +119,7 @@
                           cif_chl)\
     new_camera_device_ex(sensor_name,\
                         face,\
-                        INVALID_VALUE,\
+                        ori,\
                         INVALID_VALUE,\
                         INVALID_VALUE,\
                         INVALID_VALUE,\

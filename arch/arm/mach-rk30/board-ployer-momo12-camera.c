@@ -69,7 +69,7 @@ static struct rkcamera_platform_data new_camera[] = {
                         CONS(RK29_CAM_SENSOR_GC2035,_I2C_ADDR),
                         0,
                         24),
-    new_camera_device_ex(RK29_CAM_SENSOR_SP2518, //momo12
+    new_camera_device_ex(RK29_CAM_SENSOR_SP2518, //
                         back,
                         0,//INVALID_VALUE,
                         INVALID_VALUE,
@@ -88,6 +88,7 @@ static struct rkcamera_platform_data new_camera[] = {
                         24),
     new_camera_device(RK29_CAM_SENSOR_GC0308, //momo12
                         front,
+						0,
                         RK30_PIN1_PB7,
                         0,
                         0,
@@ -95,13 +96,15 @@ static struct rkcamera_platform_data new_camera[] = {
                         0),
     new_camera_device(RK29_CAM_SENSOR_GT2005, //momo12
                         front,
+						0,
                         RK30_PIN1_PB7,
                         0,
                         0,
                         3,
                         0),
-    new_camera_device(RK29_CAM_SENSOR_GC2035, //momo12
+     new_camera_device(RK29_CAM_SENSOR_GC2035, //momo12
                         front,
+						0,
                         RK30_PIN1_PB7,
                         0,
                         0,
