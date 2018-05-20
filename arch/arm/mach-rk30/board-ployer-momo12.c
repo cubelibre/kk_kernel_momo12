@@ -501,7 +501,7 @@ static struct rk29_bl_info rk29_bl_info = {
 	.pwm_suspend = rk29_backlight_pwm_suspend,
 	.pwm_resume = rk29_backlight_pwm_resume,
 	.min_brightness = 50,
-	.max_brightness = 200,
+	.max_brightness = 250,//200,
 	.pre_div = 20000,
 };
 
@@ -2267,6 +2267,7 @@ static void __init rk30_reserve(void)
  * @logic_volt	: logic voltage arm requests depend on frequency
  * comments	: min arm/logic voltage
  */
+#if 0
 static struct dvfs_arm_table dvfs_cpu_logic_table[] = {
 	{.frequency = 126 * 1000, 	.cpu_volt = 1050 * 1000, 	.logic_volt = 1125 * 1000},//0.975V/1.000V
 	{.frequency = 252 * 1000,	.cpu_volt = 1075 * 1000,	.logic_volt = 1125 * 1000},//0.975V/1.000V
@@ -2277,9 +2278,24 @@ static struct dvfs_arm_table dvfs_cpu_logic_table[] = {
 	{.frequency = 1272 * 1000,	.cpu_volt = 1225 * 1000,	.logic_volt = 1200 * 1000},//1.150V/1.100V
 	{.frequency = 1416 * 1000,	.cpu_volt = 1300 * 1000,	.logic_volt = 1200 * 1000},//1.225V/1.100V
 	{.frequency = 1512 * 1000,	.cpu_volt = 1350 * 1000,	.logic_volt = 1250 * 1000},//1.300V/1.150V
-//	{.frequency = 1608 * 1000,	.cpu_volt = 1425 * 1000,	.logic_volt = 1300 * 1000},//1.325V/1.175V
+	{.frequency = 1608 * 1000,	.cpu_volt = 1425 * 1000,	.logic_volt = 1300 * 1000},//1.325V/1.175V
 	{.frequency = CPUFREQ_TABLE_END},
 };
+#else
+static struct dvfs_arm_table dvfs_cpu_logic_table[] = {
+	{.frequency = 126 * 1000, .cpu_volt = 1050 * 1000, .logic_volt = 1125 * 1000},//0.975V/1.000V
+    {.frequency = 252 * 1000, .cpu_volt = 1100 * 1000, .logic_volt = 1125 * 1000},//0.975V/1.000V
+    {.frequency = 504 * 1000, .cpu_volt = 1100 * 1000, .logic_volt = 1125* 1000},//0.975V/1.000V
+    {.frequency = 816 * 1000, .cpu_volt = 1125 * 1000, .logic_volt = 1150 * 1000},//1.000V/1.025V
+    {.frequency = 1008 * 1000, .cpu_volt = 1150 * 1000, .logic_volt = 1150 * 1000},//1.025V/1.050V
+    {.frequency = 1200 * 1000, .cpu_volt = 1200 * 1000, .logic_volt = 1200 * 1000},//1.100V/1.050V
+    {.frequency = 1272 * 1000, .cpu_volt = 1250 * 1000, .logic_volt = 1200 * 1000},//1.150V/1.100V
+    {.frequency = 1416 * 1000, .cpu_volt = 1325 * 1000, .logic_volt = 1225 * 1000},//1.225V/1.100V
+    {.frequency = 1512 * 1000, .cpu_volt = 1375 * 1000, .logic_volt = 1250 * 1000},//1.300V/1.150V
+    {.frequency = 1608 * 1000, .cpu_volt = 1450 * 1000, .logic_volt = 1325 * 1000},//1.325V/1.175V
+    {.frequency = CPUFREQ_TABLE_END},};
+
+#endif
 
 static struct cpufreq_frequency_table dvfs_gpu_table[] = {
 	{.frequency = 266 * 1000,	.index = 1050 * 1000},

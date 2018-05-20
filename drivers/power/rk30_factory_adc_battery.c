@@ -109,16 +109,32 @@ static int batt_table[2*BATT_NUM+6] =
 };
 #define adc_to_voltage(adc_val) ((adc_val * BAT_DEFINE_VALUE * (batt_table[4] +batt_table[5])) / (1024 *batt_table[5]))
 #else
+#if defined(CONFIG_MACH_PLOYER_MOMO12)
+
+#define BATT_MAX_VOL_VALUE                              8200              	//Full charge voltage
+#define BATT_ZERO_VOL_VALUE                             6750            	// power down voltage 
+#define BATT_NOMAL_VOL_VALUE                          7600        
+
+#else
+
 #define BATT_MAX_VOL_VALUE                              8284              	//Full charge voltage
 #define BATT_ZERO_VOL_VALUE                             6900            	// power down voltage 
 #define BATT_NOMAL_VOL_VALUE                          7600                
 
+#endif
+
 
 static int batt_table[2*BATT_NUM+6] =
 {
+#if defined(CONFIG_MACH_PLOYER_MOMO12)
+	0x4B434F52,0x7461625F,0x79726574,1,310,100,
+	6750, 7060, 7175, 7300, 7415, 7500, 7600, 7750, 7900, 8020, 8200,
+	7000, 7260, 7395, 7550, 7675, 7795, 7895, 7995, 8120, 8220, 8300
+#else
 	0x4B434F52,0x7461625F,0x79726574,1,300,100,
 	6800, 7242, 7332, 7404, 7470, 7520, 7610, 7744, 7848, 8016, 8284,//discharge
 	7630, 7754, 7852, 7908, 7956, 8024, 8112, 8220, 8306, 8318, 8328//charge
+#endif
 };
 #define adc_to_voltage(adc_val) ((adc_val * BAT_DEFINE_VALUE * (batt_table[4] +batt_table[5])) / (1024 *batt_table[5]))
 #endif
